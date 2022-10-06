@@ -1,0 +1,15 @@
+- 파서별 장단점
+파서                    문자열              장점                            단점
+Python's html.parser    'html.parser'       기본옵션, 속도적절 유연한 파싱     lxml 파서보다 느리고, htmllib5 파서만큼 유연x
+lxml's HTML parser      'lxml'              속도 매우 빠르고,유연한 파싱
+lxml's XML PARSER       'lxml-xml','xml'    속도 매우 빠르고,유연한 파싱        XML파일만 가능
+html5lib                'html5lib'          극도로 유연하여 복잡한 html문서 파싱  매우 느림
+
+- find_all()
+find_all(['검색할 태그'][, class_='클래스 속성값'][, id='아이디 속성값'][, limit=찾을 개수]) -> 아무것도 없으면 빈 리스트
+find(['검색할 태그'][, class_='클래스 속성값'][, id='아이디 속성값']) -> None
+
+- OHLC (Open-High-Low-Close) 캔들차트
+시가-고가-저가-종가를 이용하여 하루 동안의 가격 변동을 표시한다.
+시가보다 종가가 높으면 붉은 양봉으로 표시하고, 고가와 저가를 실선으로 연결한다.
+반대로 시가보다 종가가 낮으면 푸른 음봉으로 표시하고, 고가와 저가를 실선으로 연결한다.

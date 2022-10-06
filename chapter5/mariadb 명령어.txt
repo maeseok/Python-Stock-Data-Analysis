@@ -1,0 +1,10 @@
+CREATE DATABASE Investar; - DB 생성
+SHOW DATABASES; - DB 목록 보기
+USE Investar; - Investar로 DB 교체
+SHOW TABLES;  - 테이블 표시
+SELECT VERSION(); - 현재 마리아의 버전 정보 확인
+DROP DATABASE Investar; - Investar DB 삭제
+
+헤이디에스큐엘 사용하여 GUI로 사용가능 CLI
+
+- DBUpdater.py - 네이버 금융의 일별 시세를 마리아디비로 복제함

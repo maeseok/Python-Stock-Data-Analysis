@@ -1,0 +1,33 @@
+.plot() - 차트를 그림
+.title() - 타이틀명 표시
+.xlabel() - x축 이름 설정
+.ylabel() - y축 이름 설정
+.show() - 만든 내용 출력
+.plot.scatter(x,y,c,cmap,edgecolors,figsize,grid) - 산점도 출력
+.figure() - 전체적인 그림 사이즈 설정
+.subplot() - 2행 1열 ,2행 2열과 같이 전체그림을 n등분 할 수 있음
+.fill_between() - 두 수평 방향의 곡선 사이를 채움]
+.fill_betweenx() - 두 수직 방향의 곡선 사이를 채움
+.legend() - 범례 표시, 위치 변경 등등
+.grid() - 격자 표시 (눈금)
+.yticks() - y축 눈금값 변경
+.bar() -수직 막대 그래프 그리기
+.barh() - 수평 막대 그래프 그리기
+.dates.mdates.DateFormatter() - 날짜 형식 변환
+.dates.mdates.date2num() - 날짜형 인덱스를 숫자형으로 변환
+
+
+
+
+
+mpl_finance(구버전)
+.candlestick_ohle() - 캔들스틱 ohlc 형태 차트 생성
+.subplot.xaxis.set_major_formatter() - x축의 형식 포맷형태 지정
+
+mplfinacne(신버전)
+.plot(type) - type만 바꾸면 다른 차트로 변경됨
+.make_marketcolors() - 마켓 색상으로 스타일 지정
+.make_mpf_style() - 마켓색상 넘겨서 스타일 적용
+
+
+

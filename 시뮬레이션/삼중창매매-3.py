@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import datetime
 from mpl_finance import candlestick_ohlc
 import matplotlib.dates as mdates
-from Investar import Analyzer
+import Analyzer
 
 mk = Analyzer.MarketDB()
-df = mk.get_daily_price('엔씨소프트', '2017-01-01')
+df = mk.get_daily_price('KOSPI', '2022-01-01')
 
 ema60 = df.close.ewm(span=60).mean()
 ema130 = df.close.ewm(span=130).mean()

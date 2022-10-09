@@ -5,3 +5,40 @@ pyplot과도 쉽게 호환됨.
 시계열 : 시간의 흐름에 따라 기록한 데이터(시리즈에 적합)
 데이터프레임 : 여러 시리즈가 한 가지 인덱스를 기준으로 합쳐진 형태이다.
 
+.pct_change() - 수익률을 구해주는 메소드
+.cov() - 공분산을 구하는 메소드 (두 개의 확률변수의 상관정도를 나타내는 값 )
+.head() - 맨 위 5개 출력
+.tail() - 맨 아래 5개 츨력
+.DataFrame() - 데이터프레임 형태로 만듦
+.Series() - 시리즈 만듦
+.Index() - 인덱스 값 생성
+.index() - 인덱스 값
+.columns() - 컬럼 정보
+.shift() - n칸만큼 뒤로 이동
+.index.name() - 인덱스 이름
+.name() - 시리즈명
+.values() - 값 출력
+.cumsum() - 누적합
+.cumprod() - 누적곱
+.loc() - 칼럼명 이나 조건의 값 반환
+.iloc() - 해당번째 인덱스 반환
+.drop() - 삭제
+.describe() - 원소 개수, 평균, 표준편차, 최솟값, 제1~3 사분위수, 최댓값 
+.info() - 해당 데이터프레임 정보
+.fillna() - bfill(뒷값으로 채움) ffill(앞값으로 채움)
+.plot() - 맥플로립의 plot기능을 가져와서 기능은 같음
+.rolling(window, min_periods) - 기간이동 계산 뒤에 .mean() 붙이면 이동평균 계산
+.corr() - 칼럼 간의 상관계수
+.std() - 표본표준편차를 구함
+.ewm() - 지수가중함수 뒤에 .mean() 붙이면 지수이동평균 , span은 기간
+.dropna() - 빈 칸 삭제
+.assign() - 새로운 열 할당
+.sort_values(by,ascending) - by해당 값 정렬(T=오름차순,F=내림차순)
+.itertuples() - 이름있는 튜플 형태로 반환
+.iterrows() - 인덱스와 시리즈로 반환
+.read_html() - html 파일 읽어옴
+.read_csv() - csv 파일 읽어옴
+.rename() - 컬럼명 수정
+.read_sql() - sql 결과값 가져옴
+
+

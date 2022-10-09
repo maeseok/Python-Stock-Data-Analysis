@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from Investar import Analyzer
+import Analyzer
 
 mk = Analyzer.MarketDB()
 df = mk.get_daily_price('NAVER', '2019-01-02')

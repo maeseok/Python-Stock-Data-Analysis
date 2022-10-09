@@ -91,6 +91,46 @@ class DBUpdater:
                 self.conn.commit()
                 print('')              
 
+
+    def read_kospi(self,pages_to_fetch):
+        """네이버에서 주식 시세를 읽어서 데이터프레임으로 반환"""
+        try:
+            url = f"https://finance.naver.com/sise/sise_index_day.nhn?code=KOSPI"
+            html = BeautifulSoup(requests.get(url,
+                headers={'User-agent': 'Mozilla/5.0'}).text, "lxml")
+            pgrr = html.find("td", class_="pgRR")
+            if pgrr is None:
+                return None
+            s = str(pgrr.a["href"]).split('=')
+            #일별 시세의 마지막 페이지를 구한다.
+            lastpage = s[-1] 
+            df = pd.DataFrame()
+            #설정 파일에 설정된 페이지 수와 lastpage 중에서 작은 것을 택한다.
+            pages = min(int(lastpage), pages_to_fetch)
+            for page in range(1, pages + 1):
+                pg_url = '{}&page={}'.format(url, page)
+                #일별 시세 페이지를 읽어서 데이터프레임에 추가한다.
+                df = df.append(pd.read_html(requests.get(pg_url,
+                headers={'User-agent': 'Mozilla/5.0'}).text)[0])    
+                tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
+                print('[{}] {} ({}) : {:04d}/{:04d} pages are downloading...'.
+                    format(tmnow,"KOSPI","000000", page, pages), end="\r")
+            #한글 컬럼명을 영문으로 변경한다.
+            df = df.rename(columns={'날짜':'date','체결가':'close','전일비':'diff'
+                ,'등락률':'rate','거래대금(백만)':'money','저가':'low','거래량(천주)':'volume'})
+            #연-월-일 형식으로 변경한다.
+            df['date'] = df['date'].replace('.', '-')
+            df = df.dropna()
+            #BIGINT형으로 지정한 칼럼들의 데이터형을 int형으로 변경한다.
+            df[['close', 'diff', 'money', 'volume']] = df[['close',
+                'diff', 'money', 'volume']].astype(int)
+            #원하는 순서로 칼럼을 재조합하여 데이터프레임을 만든다.
+            df = df[['date', 'money', 'close', 'diff', 'volume']]
+        except Exception as e:
+            print('Exception occured :', str(e))
+            return None
+        return df
+
     def read_naver(self, code, company, pages_to_fetch):
         """네이버에서 주식 시세를 읽어서 데이터프레임으로 반환"""
         try:
@@ -138,9 +178,14 @@ class DBUpdater:
             #인수로 넘겨받은 데이터프레임을 듀플로 순회처리
             for r in df.itertuples():
                 #daily_price 업데이트
-                sql = f"REPLACE INTO daily_price VALUES ('{code}', "\
-                    f"'{r.date}', {r.open}, {r.high}, {r.low}, {r.close}, "\
-                    f"{r.diff}, {r.volume})"
+                if(company!="KOSPI"):
+                    sql = f"REPLACE INTO daily_price VALUES ('{code}', "\
+                        f"'{r.date}', {r.open}, {r.high}, {r.low}, {r.close}, "\
+                        f"{r.diff}, {r.volume})"
+                else:
+                    sql = f"REPLACE INTO daily_price VALUES ('{code}', "\
+                        f"'{r.date}',{code},{r.money},{code}, {r.close}, "\
+                        f"{r.diff}, {r.volume})"
                 curs.execute(sql)
             #commit하여 마리아디비에 반영
             self.conn.commit()
@@ -151,14 +196,21 @@ class DBUpdater:
     def update_daily_price(self, pages_to_fetch):
         """KRX 상장법인의 주식 시세를 네이버로부터 읽어서 DB에 업데이트"""  
         #self.codes 딕셔너리에 저장된 모든 종목코드에 대해 순회처리
+        cnt=0
         for idx, code in enumerate(self.codes):
             #read_naver 이용하여 종목코드에 대한 일별 시세 데이터 프레임을 구한다.
             df = self.read_naver(code, self.codes[code], pages_to_fetch)
+            if(cnt==0):
+                df2 = self.read_kospi(pages_to_fetch)
+                print(df2)
+                if df2 is None:
+                    continue
+                self.replace_into_db(df2, idx, "000000", "KOSPI")
+                cnt+=1 
             if df is None:
                 continue
             #구해지면 replace_info_db() 메서드로 DB에 저장한다.
-            self.replace_into_db(df, idx, code, self.codes[code])            
-
+            self.replace_into_db(df, idx, code, self.codes[code])              
     def execute_daily(self):
         """실행 즉시 및 매일 오후 다섯시에 daily_price 테이블 업데이트"""
         #메서드를 호출하여 상장 법인 목록을 DB에 업데이트

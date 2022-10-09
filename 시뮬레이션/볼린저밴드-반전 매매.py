@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
-from Investar import Analyzer
+import Analyzer
 
 mk = Analyzer.MarketDB()
-df = mk.get_daily_price('SK하이닉스', '2018-11-01')
+df = mk.get_daily_price('카카오', '2022-01-01')
   
 df['MA20'] = df['close'].rolling(window=20).mean() 
 df['stddev'] = df['close'].rolling(window=20).std() 
@@ -18,7 +18,7 @@ df = df.dropna()
 
 plt.figure(figsize=(9, 9))
 plt.subplot(3, 1, 1)
-plt.title('SK Hynix Bollinger Band(20 day, 2 std) - Reversals')
+plt.title('KAKAO(20 day, 2 std) - Reversals')
 plt.plot(df.index, df['close'], 'b', label='Close')
 plt.plot(df.index, df['upper'], 'r--', label ='Upper band')
 plt.plot(df.index, df['MA20'], 'k--', label='Moving average 20')

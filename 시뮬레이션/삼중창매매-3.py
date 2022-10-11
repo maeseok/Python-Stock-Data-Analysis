@@ -6,7 +6,7 @@ import matplotlib.dates as mdates
 import Analyzer
 
 mk = Analyzer.MarketDB()
-df = mk.get_daily_price('KOSPI', '2022-01-01')
+df = mk.get_daily_price('엔씨소프트', '2022-01-01')
 
 ema60 = df.close.ewm(span=60).mean()
 ema130 = df.close.ewm(span=130).mean()

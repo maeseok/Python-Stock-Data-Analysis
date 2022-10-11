@@ -1,0 +1,75 @@
+- 장고 vs 플라스크
+장고 - 대규모 웹 사이트 개발 -> 공통 개발 구역을 패키지로
+플라스크 - 파이썬 마이크로프레임워크 -> 직접 구현, 자유도 높음
+
+- 장고 웹 플레임워크 설치
+pip install django
+
+- 장고 프로젝트 생성
+django-admin startproject [프로젝트 이름]
+
+- 장고 서버 실행하기
+python manage.py runserver 0.0.0.0:8000
+
+- 외부 접속 허용
+settings.py -> ALLOWED_HOSTS = ['127.0.0.1','localhost','[서버ip]']
+
+- MTV(Model-Template-View), MVC(Movel-View-Controller)
+웹 프로그램 개발할 때 흔히 MVC따라 설계, 장고에서 그와 비슷한 MTV 사용
+모델 - 데이터베이스에 데이터를 읽고 쓰는 역할
+템플릿 - 사용자에게 보여주는 부분 렌더링 처리
+뷰 - URL 요청에 맞게 함수를 호출하고 처리된 데이터를 템플릿에 전달
+
+-ORM(Object relational mapping)
+파이썬 객체와 관계형 데이터베이스를 연결해준다.
+기존은 SQL 쓰지만, ORM 기법에서는 models.py 파일에 모델 클래스를 정의하면 이에 대한 매핑 테이블이 DB에 자동으로 생성
+또한 모델 클래스의 속성은 해당 테이블의 칼럼으로 매핑되기 때문에, 객체를 통해 DB에 접근하기 편리하다.
+
+-장고 애플리케이션 생성하기
+프로젝트>> 애플리케이션 + 애플리케이션 ... (각각마다 디렉터리가 있음)
+python manage.py startapp hello
+python manage.py migrate = sqllite3 데이터베이스에 변경 사항을 적용한다.
+settings.py에서는 프로젝트와 관련된 설정을 할 수 있다.
+
+-URLConf 설정하기
+settings.py - ROOT_URLCONF -> '최상위 프로젝트.urls'
+
+-정규표현식으로 URL-View 매핑하기
+urls.py - url 설정을 위한 세 가지 방식 예제있음
+1. from 애플리케이션명 import views -> views 임포트
+2. django.urls.re_path - URL에 대한 뷰 처리를 추가
+3. path와 달리 re_path는 정규표현식을 사용해 URL 패턴 처리 가능
+4. [A-Z][a-z]* 는 첫 글자가 반드시 대문자이고 그 이후부터는 소문자가 나오거나 없는 경우이다. -> 만족하면 sayHello 함수 실행
+5. URL을 통해 입력받은 영문 이름을 Hello 메시지와 함께 출력하려면 (?P<이름>패턴) 이용하여 '이름' 파라미터로 뷰에 넘겨주어야 한다.
+
+- views 수정하기
+애플리케이션 - views.py - html 많으면 템플릿 파일로 작성, 동적인 데이터 부분은 파이썬으로
+sayHello 함수 만들고 name 인수 추가 
+
+- 실행
+python manage.py runserver 0.0.0.0:8000
+localhost:8000/Django 접속- 아까 설정했던 패턴대로 
+
+- 장고 관리자 페이지
+path('admin/', admin.site.urls) -> admin으로 접속 시 관리자 페이지 호출
+
+- 관리자 생성
+manage.py createsuperuser -> 이후 admin에서 로그인
+
+- index 애플리케이션 생성
+python manage.py startapp index
+settings.py -> INSTALLED_APPS에 추가
+
+- URLConf 추가하기
+path('index/', index_views.main_view), 추가
+
+- 뷰 수정하기
+return render(request, 'index_html')
+
+- 템플릿 작성
+index 밑에 templates 디렉터리 생성 후 index.html 생성
+정적파일은 static 아래 
+
+- 템플릿 태그
+{% load static %} html 맨 위에 추가
+img 태그 src 속성을 {% tag %}로 변경

@@ -73,3 +73,10 @@ index 밑에 templates 디렉터리 생성 후 index.html 생성
 - 템플릿 태그
 {% load static %} html 맨 위에 추가
 img 태그 src 속성을 {% tag %}로 변경
+
+- 새 애플리케이션 생성 후 적용
+1. settings.py에서 INSTALLED_APPS에 추가
+2. url.py에 URLConf 추가하기
+3. 해당 애플리케이션의 views.py에 함수 작성
+4. templates에 보여줄 html 추가
+5. static에 css 추가

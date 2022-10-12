@@ -17,9 +17,13 @@ from django.contrib import admin
 from django.urls import path, re_path
 from hello import views 
 from index import views as index_views
+from balance import views as balance_views
 
 urlpatterns = [
+    #admin으로 접속 시 관리자 페이지 호출
     path('admin/', admin.site.urls),
     re_path(r'^(?P<name>[A-Z][a-z]*)$', views.sayHello),
+    #index로 접속 시 메소드를 통해 index.html 호출
     path('index/', index_views.main_view),
+    path('balance/', balance_views.main_view)
 ]

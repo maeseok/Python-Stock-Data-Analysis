@@ -27,3 +27,4 @@ urlpatterns = [
     path('index/', index_views.main_view),
     path('balance/', balance_views.main_view)
 ]
+asdsad
